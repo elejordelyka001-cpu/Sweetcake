@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> — SweetBake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<% if (user) { %>
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-icon">🍰</span>
+    <span class="brand-name">SweetBake</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="/dashboard" class="nav-link"><span class="icon">📊</span> Dashboard</a></li>
+    <li><a href="/orders" class="nav-link"><span class="icon">📋</span> Orders</a></li>
+    <li><a href="/products" class="nav-link"><span class="icon">🎂</span> Products</a></li>
+    <li><a href="/customers" class="nav-link"><span class="icon">👥</span> Customers</a></li>
+    <li><a href="/expenses" class="nav-link"><span class="icon">💰</span> Expenses</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <span class="user-avatar"><%= user.name[0].toUpperCase() %></span>
+      <div>
+        <div class="user-name"><%= user.name %></div>
+        <div class="user-role"><%= user.role %></div>
+      </div>
+    </div>
+    <a href="/logout" class="logout-btn">Sign out</a>
+  </div>
+</nav>
+<main class="main-content">
+<% } %>

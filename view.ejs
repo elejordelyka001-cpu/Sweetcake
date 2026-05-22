@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><%= customer.name %></h1>
+    <p class="page-sub">Customer profile</p>
+  </div>
+  <div class="flex gap-8">
+    <a href="/customers/<%= customer.id %>/edit" class="btn btn-outline">Edit</a>
+    <a href="/customers" class="btn btn-outline">← Back</a>
+  </div>
+</div>
+
+<div class="detail-grid">
+  <div class="card">
+    <h3 class="card-title">Contact Info</h3>
+    <div class="detail-row"><strong>Email:</strong> <%= customer.email || '—' %></div>
+    <div class="detail-row"><strong>Phone:</strong> <%= customer.phone || '—' %></div>
+    <div class="detail-row"><strong>Address:</strong> <%= customer.address || '—' %></div>
+    <% if (customer.notes) { %>
+    <div class="detail-row"><strong>Notes:</strong> <%= customer.notes %></div>
+    <% } %>
+  </div>
+  <div class="card">
+    <h3 class="card-title">Order History (<%= orders.length %>)</h3>
+    <% if (orders.length === 0) { %>
+      <p class="muted">No orders yet.</p>
+    <% } else { %>
+    <table class="table">
+      <thead><tr><th>#</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody>
+      <% orders.forEach(o => { %>
+        <tr>
+          <td><a href="/orders/<%= o.id %>">#<%= o.id %></a></td>
+          <td>₱<%= parseFloat(o.total_amount).toLocaleString() %></td>
+          <td><span class="badge badge-<%= o.status %>"><%= o.status %></span></td>
+          <td><%= new Date(o.created_at).toLocaleDateString('en-PH') %></td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/footer') %>

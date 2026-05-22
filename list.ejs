@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Customers</h1>
+    <p class="page-sub">Your loyal cake lovers</p>
+  </div>
+  <a href="/customers/new" class="btn btn-primary">+ Add Customer</a>
+</div>
+<%- include('../partials/flash') %>
+
+<div class="card">
+  <div class="filters-row">
+    <form method="GET" action="/customers" class="filter-form">
+      <input type="text" name="search" placeholder="Search by name, email or phone" value="<%= search || '' %>" class="input-sm" />
+      <button type="submit" class="btn btn-sm">Search</button>
+      <a href="/customers" class="btn btn-sm btn-outline">Clear</a>
+    </form>
+  </div>
+  <% if (customers.length === 0) { %>
+    <div class="empty-state">No customers found. <a href="/customers/new">Add one!</a></div>
+  <% } else { %>
+  <table class="table">
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Member Since</th><th>Actions</th></tr></thead>
+    <tbody>
+    <% customers.forEach(c => { %>
+      <tr>
+        <td><a href="/customers/<%= c.id %>"><strong><%= c.name %></strong></a></td>
+        <td><%= c.email || '—' %></td>
+        <td><%= c.phone || '—' %></td>
+        <td><%= new Date(c.created_at).toLocaleDateString('en-PH') %></td>
+        <td class="actions">
+          <a href="/customers/<%= c.id %>" class="btn btn-xs">View</a>
+          <a href="/customers/<%= c.id %>/edit" class="btn btn-xs btn-outline">Edit</a>
+          <% if (user.role === 'admin') { %>
+          <form method="POST" action="/customers/<%= c.id %>/delete" style="display:inline" onsubmit="return confirm('Delete customer?')">
+            <button class="btn btn-xs btn-danger">Del</button>
+          </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+<%- include('../partials/footer') %>

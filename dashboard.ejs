@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-sub">Good to see you, <%= user.name %>! Here's today's overview.</p>
+  </div>
+  <a href="/orders/new" class="btn btn-primary">+ New Order</a>
+</div>
+<%- include('../partials/flash') %>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#FFF3E0">🛍️</div>
+    <div class="stat-info">
+      <div class="stat-value"><%= stats.todayOrders || 0 %></div>
+      <div class="stat-label">Orders Today</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#E8F5E9">💵</div>
+    <div class="stat-info">
+      <div class="stat-value">₱<%= (stats.monthRevenue || 0).toLocaleString('en-PH', {minimumFractionDigits:2}) %></div>
+      <div class="stat-label">Revenue This Month</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#FCE4EC">🎂</div>
+    <div class="stat-info">
+      <div class="stat-value"><%= stats.activeProducts || 0 %></div>
+      <div class="stat-label">Active Products</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:#E3F2FD">👥</div>
+    <div class="stat-info">
+      <div class="stat-value"><%= stats.totalCustomers || 0 %></div>
+      <div class="stat-label">Total Customers</div>
+    </div>
+  </div>
+</div>
+
+<div class="dash-grid">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Recent Orders</h2>
+      <a href="/orders" class="link-sm">View all →</a>
+    </div>
+    <% if (recentOrders.length === 0) { %>
+      <div class="empty-state">No orders yet. <a href="/orders/new">Create one!</a></div>
+    <% } else { %>
+    <table class="table">
+      <thead><tr><th>#</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+      <tbody>
+      <% recentOrders.forEach(o => { %>
+        <tr>
+          <td><a href="/orders/<%= o.id %>">#<%= o.id %></a></td>
+          <td><%= o.customer_name || 'Walk-in' %></td>
+          <td>₱<%= parseFloat(o.total_amount).toLocaleString() %></td>
+          <td><span class="badge badge-<%= o.status %>"><%= o.status %></span></td>
+        </tr>
+      <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Order Status</h2>
+    </div>
+    <div class="status-summary">
+      <% const statuses = ['pending','confirmed','baking','ready','delivered','cancelled']; %>
+      <% statuses.forEach(s => { %>
+        <div class="status-row">
+          <span class="badge badge-<%= s %>"><%= s %></span>
+          <span class="status-count"><%= statusCounts[s] || 0 %></span>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>

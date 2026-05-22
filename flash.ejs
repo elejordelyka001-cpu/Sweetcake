@@ -1,0 +1,6 @@
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="flash flash-<%= flash.type %>">
+    <span><%= flash.type === 'success' ? '✅' : '❌' %> <%= flash.msg %></span>
+    <button onclick="this.parentElement.remove()">×</button>
+  </div>
+<% } %>
